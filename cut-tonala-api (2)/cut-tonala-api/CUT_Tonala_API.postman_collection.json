@@ -1,0 +1,1267 @@
+{
+	"info": {
+		"_postman_id": "cut-tonala-api-collection",
+		"name": "CUT Tonalá API - Colección Completa",
+		"description": "Colección completa de endpoints para la API REST del CUT Tonalá. Incluye todas las operaciones CRUD y subida de imágenes.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Autenticación",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.token) {",
+									"        pm.collectionVariables.set(\"token\", jsonData.token);",
+									"        console.log(\"Token guardado:\", jsonData.token);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"correo\": \"admin@test.com\",\n    \"contrasena\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/login",
+							"host": ["{{base_url}}"],
+							"path": ["api", "login"]
+						},
+						"description": "Inicia sesión y obtiene un token JWT. El token se guarda automáticamente en la variable 'token'."
+					}
+				},
+				{
+					"name": "Login - Cliente",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.token) {",
+									"        pm.collectionVariables.set(\"token\", jsonData.token);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"correo\": \"cliente@test.com\",\n    \"contrasena\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/login",
+							"host": ["{{base_url}}"],
+							"path": ["api", "login"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Alumnos",
+			"item": [
+				{
+					"name": "Obtener todos los alumnos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/alumnos",
+							"host": ["{{base_url}}"],
+							"path": ["api", "alumnos"]
+						},
+						"description": "Requiere autenticación (token JWT)"
+					}
+				},
+				{
+					"name": "Obtener alumno por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/alumnos/:id",
+							"host": ["{{base_url}}"],
+							"path": ["api", "alumnos", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Obtener talleres de alumno",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/alumnos/:id/talleres",
+							"host": ["{{base_url}}"],
+							"path": ["api", "alumnos", ":id", "talleres"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Crear nuevo alumno",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Juan Pérez\",\n    \"email\": \"juan.perez@example.com\",\n    \"codigo\": \"A12345\",\n    \"carrera\": \"Ingeniería en Sistemas\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/alumnos",
+							"host": ["{{base_url}}"],
+							"path": ["api", "alumnos"]
+						}
+					}
+				},
+				{
+					"name": "Actualizar alumno",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Juan Pérez García\",\n    \"carrera\": \"Ingeniería en Sistemas Computacionales\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/alumnos/:id",
+							"host": ["{{base_url}}"],
+							"path": ["api", "alumnos", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Eliminar alumno",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/alumnos/:id",
+							"host": ["{{base_url}}"],
+							"path": ["api", "alumnos", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Subir foto de alumno",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "foto",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/api/alumnos/:id/foto",
+							"host": ["{{base_url}}"],
+							"path": ["api", "alumnos", ":id", "foto"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Profesores",
+			"item": [
+				{
+					"name": "Obtener todos los profesores",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/profesores",
+							"host": ["{{base_url}}"],
+							"path": ["api", "profesores"]
+						}
+					}
+				},
+				{
+					"name": "Obtener profesor por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/profesores/:id",
+							"host": ["{{base_url}}"],
+							"path": ["api", "profesores", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Obtener talleres de profesor",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/profesores/:id/talleres",
+							"host": ["{{base_url}}"],
+							"path": ["api", "profesores", ":id", "talleres"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Crear nuevo profesor",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"María González\",\n    \"email\": \"maria.gonzalez@example.com\",\n    \"telefono\": \"3312345678\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/profesores",
+							"host": ["{{base_url}}"],
+							"path": ["api", "profesores"]
+						}
+					}
+				},
+				{
+					"name": "Actualizar profesor",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"María González López\",\n    \"telefono\": \"3312345679\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/profesores/:id",
+							"host": ["{{base_url}}"],
+							"path": ["api", "profesores", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Eliminar profesor",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/profesores/:id",
+							"host": ["{{base_url}}"],
+							"path": ["api", "profesores", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Subir foto de profesor",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "foto",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/api/profesores/:id/foto",
+							"host": ["{{base_url}}"],
+							"path": ["api", "profesores", ":id", "foto"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Categorías",
+			"item": [
+				{
+					"name": "Obtener todas las categorías",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/categorias",
+							"host": ["{{base_url}}"],
+							"path": ["api", "categorias"]
+						}
+					}
+				},
+				{
+					"name": "Obtener categoría por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/categorias/:id",
+							"host": ["{{base_url}}"],
+							"path": ["api", "categorias", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Obtener talleres de categoría",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/categorias/:id/talleres",
+							"host": ["{{base_url}}"],
+							"path": ["api", "categorias", ":id", "talleres"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Crear nueva categoría",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Arte\",\n    \"descripcion\": \"Talleres relacionados con arte y creatividad\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/categorias",
+							"host": ["{{base_url}}"],
+							"path": ["api", "categorias"]
+						}
+					}
+				},
+				{
+					"name": "Actualizar categoría",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Arte y Cultura\",\n    \"descripcion\": \"Talleres relacionados con arte, cultura y creatividad\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/categorias/:id",
+							"host": ["{{base_url}}"],
+							"path": ["api", "categorias", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Eliminar categoría",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/categorias/:id",
+							"host": ["{{base_url}}"],
+							"path": ["api", "categorias", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Subir foto de categoría",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "foto",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/api/categorias/:id/foto",
+							"host": ["{{base_url}}"],
+							"path": ["api", "categorias", ":id", "foto"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Talleres",
+			"item": [
+				{
+					"name": "Obtener todos los talleres",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/talleres",
+							"host": ["{{base_url}}"],
+							"path": ["api", "talleres"]
+						},
+						"description": "Requiere autenticación (token JWT)"
+					}
+				},
+				{
+					"name": "Obtener taller por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/talleres/:id",
+							"host": ["{{base_url}}"],
+							"path": ["api", "talleres", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Obtener talleres por categoría",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/talleres/categoria/:categoriaId",
+							"host": ["{{base_url}}"],
+							"path": ["api", "talleres", "categoria", ":categoriaId"],
+							"variable": [
+								{
+									"key": "categoriaId",
+									"value": "1"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Obtener talleres por profesor",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/talleres/profesor/:profesorId",
+							"host": ["{{base_url}}"],
+							"path": ["api", "talleres", "profesor", ":profesorId"],
+							"variable": [
+								{
+									"key": "profesorId",
+									"value": "1"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Obtener taller con inscritos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/talleres/:id/inscritos",
+							"host": ["{{base_url}}"],
+							"path": ["api", "talleres", ":id", "inscritos"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Crear nuevo taller",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Pintura al Óleo\",\n    \"descripcion\": \"Aprende técnicas de pintura al óleo\",\n    \"categoria_id\": 1,\n    \"profesor_id\": 1\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/talleres",
+							"host": ["{{base_url}}"],
+							"path": ["api", "talleres"]
+						}
+					}
+				},
+				{
+					"name": "Actualizar taller",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Pintura al Óleo Avanzada\",\n    \"descripcion\": \"Técnicas avanzadas de pintura al óleo\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/talleres/:id",
+							"host": ["{{base_url}}"],
+							"path": ["api", "talleres", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Eliminar taller",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/talleres/:id",
+							"host": ["{{base_url}}"],
+							"path": ["api", "talleres", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Subir foto de taller",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "foto",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/api/talleres/:id/foto",
+							"host": ["{{base_url}}"],
+							"path": ["api", "talleres", ":id", "foto"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Inscripciones",
+			"item": [
+				{
+					"name": "Obtener todas las inscripciones",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/inscripciones",
+							"host": ["{{base_url}}"],
+							"path": ["api", "inscripciones"]
+						}
+					}
+				},
+				{
+					"name": "Obtener inscripción por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/inscripciones/:id",
+							"host": ["{{base_url}}"],
+							"path": ["api", "inscripciones", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Obtener inscripciones por alumno",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/inscripciones/alumno/:alumnoId",
+							"host": ["{{base_url}}"],
+							"path": ["api", "inscripciones", "alumno", ":alumnoId"],
+							"variable": [
+								{
+									"key": "alumnoId",
+									"value": "1"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Obtener inscripciones por taller",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/inscripciones/taller/:tallerId",
+							"host": ["{{base_url}}"],
+							"path": ["api", "inscripciones", "taller", ":tallerId"],
+							"variable": [
+								{
+									"key": "tallerId",
+									"value": "1"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Crear nueva inscripción",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"alumno_id\": 1,\n    \"taller_id\": 1,\n    \"fecha_registro\": \"2024-01-15\",\n    \"estado\": \"activo\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/inscripciones",
+							"host": ["{{base_url}}"],
+							"path": ["api", "inscripciones"]
+						}
+					}
+				},
+				{
+					"name": "Actualizar inscripción",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"estado\": \"inactivo\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/inscripciones/:id",
+							"host": ["{{base_url}}"],
+							"path": ["api", "inscripciones", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Eliminar inscripción",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/inscripciones/:id",
+							"host": ["{{base_url}}"],
+							"path": ["api", "inscripciones", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Información",
+			"item": [
+				{
+					"name": "Obtener toda la información",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/informacion",
+							"host": ["{{base_url}}"],
+							"path": ["api", "informacion"]
+						}
+					}
+				},
+				{
+					"name": "Obtener información por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/informacion/:id",
+							"host": ["{{base_url}}"],
+							"path": ["api", "informacion", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Obtener información por tipo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/informacion/tipo/:tipo",
+							"host": ["{{base_url}}"],
+							"path": ["api", "informacion", "tipo", ":tipo"],
+							"variable": [
+								{
+									"key": "tipo",
+									"value": "Noticia"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Obtener información por administrador",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/informacion/admin/:adminId",
+							"host": ["{{base_url}}"],
+							"path": ["api", "informacion", "admin", ":adminId"],
+							"variable": [
+								{
+									"key": "adminId",
+									"value": "1"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Crear nueva información",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"tipo\": \"Noticia\",\n    \"contenido\": \"Nuevo taller de programación disponible\",\n    \"admin_id\": 1\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/informacion",
+							"host": ["{{base_url}}"],
+							"path": ["api", "informacion"]
+						}
+					}
+				},
+				{
+					"name": "Actualizar información",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"contenido\": \"Nuevo taller de programación avanzada disponible\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/informacion/:id",
+							"host": ["{{base_url}}"],
+							"path": ["api", "informacion", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Eliminar información",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/informacion/:id",
+							"host": ["{{base_url}}"],
+							"path": ["api", "informacion", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Administradores",
+			"item": [
+				{
+					"name": "Obtener todos los administradores",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/administradores",
+							"host": ["{{base_url}}"],
+							"path": ["api", "administradores"]
+						}
+					}
+				},
+				{
+					"name": "Obtener administrador por ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/administradores/:id",
+							"host": ["{{base_url}}"],
+							"path": ["api", "administradores", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Crear nuevo administrador",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Carlos Ramírez\",\n    \"email\": \"carlos.ramirez@example.com\",\n    \"usuario\": \"carlos_admin\",\n    \"contrasena\": \"admin123\",\n    \"telefono\": \"3312345678\",\n    \"estado\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/administradores",
+							"host": ["{{base_url}}"],
+							"path": ["api", "administradores"]
+						}
+					}
+				},
+				{
+					"name": "Actualizar administrador",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Carlos Ramírez López\",\n    \"telefono\": \"3312345679\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/administradores/:id",
+							"host": ["{{base_url}}"],
+							"path": ["api", "administradores", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Eliminar administrador",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/administradores/:id",
+							"host": ["{{base_url}}"],
+							"path": ["api", "administradores", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Subir foto de administrador",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "foto",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/api/administradores/:id/foto",
+							"host": ["{{base_url}}"],
+							"path": ["api", "administradores", ":id", "foto"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Ejemplos de Errores",
+			"item": [
+				{
+					"name": "Error 400 - ID inválido",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/alumnos/abc",
+							"host": ["{{base_url}}"],
+							"path": ["api", "alumnos", "abc"]
+						}
+					}
+				},
+				{
+					"name": "Error 404 - Recurso no encontrado",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/alumnos/99999",
+							"host": ["{{base_url}}"],
+							"path": ["api", "alumnos", "99999"]
+						}
+					}
+				},
+				{
+					"name": "Error 400 - Validación fallida",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"\",\n    \"email\": \"email-invalido\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/alumnos",
+							"host": ["{{base_url}}"],
+							"path": ["api", "alumnos"]
+						}
+					}
+				},
+				{
+					"name": "Error 400 - Imagen no proporcionada",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{base_url}}/api/alumnos/1/foto",
+							"host": ["{{base_url}}"],
+							"path": ["api", "alumnos", "1", "foto"]
+						}
+					}
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:3000",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
+

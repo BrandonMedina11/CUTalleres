@@ -1,0 +1,21 @@
+{
+    "name": "cut-tonala/cliente-productos",
+    "type": "project",
+    "description": "Cliente Laravel para consumir API REST de productos",
+    "require": {
+        "php": "^8.1",
+        "guzzlehttp/guzzle": "^7.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        },
+        "files": [
+            "app/Helpers/functions.php"
+        ]
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
+
+
