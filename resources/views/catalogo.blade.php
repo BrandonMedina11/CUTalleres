@@ -108,7 +108,7 @@
 
     @if(empty($productos) && !$error)
         <div class="no-productos">
-            <h2>😔 No hay talleres disponibles</h2>
+            <h2> No hay talleres disponibles</h2>
             <p>Vuelve pronto para ver nuestras novedades</p>
         </div>
     @elseif(!empty($productos))
@@ -145,19 +145,24 @@
                     
                     <div style="margin-top: auto; padding-top: 1rem; display: flex; gap: 0.5rem; flex-direction: column;">
                         <a href="{{ route('producto.detalle', $taller['id']) }}" class="btn" style="text-align: center;">
-                            Ver detalle 👁️
+                            ver más detalles
                         </a>
-                        @if(session('token'))
-                            <form action="{{ route('inscripcion.inscribir', $taller['id']) }}" method="POST" style="margin: 0;">
+                        @php
+                            $estaEnCarrito = in_array($taller['id'], $talleresEnCarrito ?? []);
+                        @endphp
+                        @if($estaEnCarrito)
+                            <a href="{{ route('carrito') }}" class="btn" style="background: #28a745; text-align: center;">
+                                ✅ En el carrito
+                            </a>
+                        @else
+                            <form action="{{ route('carrito.agregar') }}" method="POST" style="margin: 0;">
                                 @csrf
-                                <button type="submit" class="btn" style="width: 100%; background: #28a745; border: none; cursor: pointer;" onclick="return confirm('¿Deseas inscribirte en este taller?')">
-                                    ✅ Inscribirse
+                                <input type="hidden" name="taller_id" value="{{ $taller['id'] }}">
+                                <input type="hidden" name="nombre" value="{{ $taller['nombre'] }}">
+                                <button type="submit" class="btn" style="width: 100%; background: #667eea; border: none; cursor: pointer;">
+                                    🛒 Agregar al carrito
                                 </button>
                             </form>
-                        @else
-                            <a href="{{ route('login') }}" class="btn" style="background: #6c757d; text-align: center;">
-                                🔐 Iniciar sesión para inscribirse
-                            </a>
                         @endif
                     </div>
                 </div>

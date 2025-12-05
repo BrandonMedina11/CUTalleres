@@ -56,18 +56,36 @@ class InscripcionController extends Controller
                 'json' => [
                     'alumno_id' => $usuario['id'],
                     'taller_id' => $tallerId,
+                    'fecha_registro' => date('Y-m-d'), // Fecha actual en formato YYYY-MM-DD
+                    'estado' => 'activo'
                 ]
             ]);
 
             $statusCode = $response->getStatusCode();
 
             if ($statusCode === 201 || $statusCode === 200) {
-                return redirect()->route('mis-pedidos')->with('success', '¡Te has inscrito exitosamente en el taller!');
+                return redirect()->route('carrito')->with('success', '¡Te has inscrito exitosamente en el taller!');
             } else {
-                $errorData = json_decode($response->getBody()->getContents(), true);
-                $mensajeError = $errorData['message'] ?? 'Error al realizar la inscripción.';
+                $responseBody = $response->getBody()->getContents();
+                $errorData = json_decode($responseBody, true);
                 
-                Log::warning("Error al inscribirse en taller {$tallerId}: {$mensajeError}");
+                // Manejar diferentes formatos de error de la API
+                if (isset($errorData['errores']) && is_array($errorData['errores'])) {
+                    // Si hay errores de validación
+                    $mensajesError = array_map(function($error) {
+                        return $error['msg'] ?? $error['message'] ?? 'Error de validación';
+                    }, $errorData['errores']);
+                    $mensajeError = implode(', ', $mensajesError);
+                } elseif (isset($errorData['error'])) {
+                    $mensajeError = $errorData['error'];
+                } elseif (isset($errorData['message'])) {
+                    $mensajeError = $errorData['message'];
+                } else {
+                    $mensajeError = "Error al realizar la inscripción (Status: {$statusCode})";
+                }
+                
+                Log::warning("Error al inscribirse en taller {$tallerId} (Status {$statusCode}): {$mensajeError}");
+                Log::warning("Respuesta completa: " . $responseBody);
                 
                 return redirect()->back()->with('error', $mensajeError);
             }

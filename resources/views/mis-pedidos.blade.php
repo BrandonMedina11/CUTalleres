@@ -80,7 +80,7 @@
     </style>
 
     <div class="pedidos-container">
-        <h2>📦 Mis Pedidos</h2>
+        <h2> Mis Talleres Guardados</h2>
         
         @if($error)
             <div class="alert alert-error">
@@ -90,8 +90,8 @@
         
         @if(empty($pedidos))
             <div class="no-pedidos">
-                <h3>😔 No tienes pedidos registrados</h3>
-                <p>Cuando realices un pedido, aparecerá aquí.</p>
+                <h3> No tienes Talleres registrados</h3>
+                <p>Cuando guardes un Talleres, aparecerá aquí.</p>
                 <a href="{{ route('catalogo') }}" class="btn" style="margin-top: 1rem;">Ver Catálogo de Talleres</a>
             </div>
         @else

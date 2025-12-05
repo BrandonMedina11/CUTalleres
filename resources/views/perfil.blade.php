@@ -105,8 +105,7 @@
         @endif
         
         <div style="margin-top: 2rem; text-align: center;">
-            <a href="{{ route('mis-pedidos') }}" class="btn">Ver Mis Pedidos</a>
-            <a href="{{ route('catalogo') }}" class="btn" style="margin-left: 1rem;">Ver Catálogo</a>
+            <a href="{{ route('catalogo') }}" class="btn">Ver Catálogo</a>
         </div>
     </div>
 @endsection

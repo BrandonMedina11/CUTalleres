@@ -116,40 +116,40 @@
         <div class="info-grid">
             @if(isset($producto['categoria_nombre']))
             <div class="info-item">
-                <strong>📂 Categoría</strong>
+                <strong> Categoría</strong>
                 <div class="value">{{ $producto['categoria_nombre'] }}</div>
             </div>
             @endif
 
             @if(isset($producto['profesor_nombre']))
             <div class="info-item">
-                <strong>👨‍🏫 Profesor</strong>
+                <strong> Profesor</strong>
                 <div class="value">{{ $producto['profesor_nombre'] }}</div>
             </div>
             @endif
 
             @if(isset($producto['id']))
             <div class="info-item">
-                <strong>🆔 ID</strong>
+                <strong> ID</strong>
                 <div class="value">#{{ $producto['id'] }}</div>
             </div>
             @endif
         </div>
 
         <div class="info-item" style="margin-bottom: 2rem;">
-            <strong>📝 Descripción</strong>
+            <strong> Descripción</strong>
             <div class="value" style="line-height: 1.8;">{{ $producto['descripcion'] ?? 'Sin descripción disponible' }}</div>
         </div>
 
         @if(isset($producto['foto_url']) && $producto['foto_url'])
-            <h3 style="margin-bottom: 1rem; color: #333;">🖼️ Imagen del Taller</h3>
+            <h3 style="margin-bottom: 1rem; color: #333;"> Imagen del Taller</h3>
             <div class="imagenes-detalle">
                 <img src="{{ $producto['foto_url'] }}" 
                      alt="{{ $producto['nombre'] }}"
                      onerror="this.style.display='none'">
             </div>
         @elseif(isset($producto['foto']) && $producto['foto'])
-            <h3 style="margin-bottom: 1rem; color: #333;">🖼️ Imagen del Taller</h3>
+            <h3 style="margin-bottom: 1rem; color: #333;"> Imagen del Taller</h3>
             <div class="imagenes-detalle">
                 <img src="{{ $apiBaseUrl }}/uploads/talleres/{{ $producto['foto'] }}" 
                      alt="{{ $producto['nombre'] }}"
@@ -158,17 +158,19 @@
         @endif
 
         <div style="margin-top: 2rem; display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
-            @if(session('token'))
-                <form action="{{ route('inscripcion.inscribir', $producto['id']) }}" method="POST" style="display: inline;">
+            @if($estaEnCarrito ?? false)
+                <a href="{{ route('carrito') }}" class="btn" style="background: #28a745;">
+                    ✅ Ya está en el carrito - Ver carrito
+                </a>
+            @else
+                <form action="{{ route('carrito.agregar') }}" method="POST" style="display: inline;">
                     @csrf
-                    <button type="submit" class="btn" style="background: #28a745; border: none; cursor: pointer;" onclick="return confirm('¿Deseas inscribirte en este taller?')">
-                        ✅ Inscribirse en este taller
+                    <input type="hidden" name="taller_id" value="{{ $producto['id'] }}">
+                    <input type="hidden" name="nombre" value="{{ $producto['nombre'] ?? '' }}">
+                    <button type="submit" class="btn" style="background: #667eea; border: none; cursor: pointer;">
+                        🛒 Agregar al carrito de inscripciones
                     </button>
                 </form>
-            @else
-                <a href="{{ route('login') }}" class="btn" style="background: #6c757d;">
-                    🔐 Iniciar sesión para inscribirse
-                </a>
             @endif
             <a href="{{ route('catalogo') }}" class="btn" style="background: #6c757d;">← Volver al catálogo</a>
         </div>

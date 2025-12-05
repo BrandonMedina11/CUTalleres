@@ -112,14 +112,22 @@
 <body>
     <nav>
         <div class="nav-content">
-            <h1>🔧 Talleres Cut Tonalá</h1>
+            <h1>Talleres Cut Tonalá</h1>
             <div class="nav-links">
                 <a href="{{ route('home') }}">Inicio</a>
                 <a href="{{ route('catalogo') }}">Catálogo</a>
+                <a href="{{ route('carrito') }}">🛒 Carrito 
+                    @php
+                        $carritoService = app(\App\Services\CarritoService::class);
+                        $carritoCount = $carritoService->contar();
+                    @endphp
+                    @if($carritoCount > 0)
+                        <span style="background: white; color: #667eea; padding: 0.2rem 0.5rem; border-radius: 10px; font-size: 0.8rem; margin-left: 0.25rem;">{{ $carritoCount }}</span>
+                    @endif
+                </a>
                 @if(session('token'))
                     <a href="{{ route('perfil') }}">Mi Perfil</a>
-                    <a href="{{ route('mis-pedidos') }}">Mis Pedidos</a>
-                    <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                    <form action="{{ route('logout') }}" method="POST" style="display: inline;" onsubmit="return confirm('¿Estás seguro de que deseas cerrar sesión?');">
                         @csrf
                         <button type="submit" style="background: none; border: none; color: #fff; cursor: pointer; padding: 0.5rem 1rem; border-radius: 4px; transition: background 0.3s;">Cerrar Sesión</button>
                     </form>

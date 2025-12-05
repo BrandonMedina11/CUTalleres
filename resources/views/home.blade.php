@@ -29,8 +29,8 @@
     </style>
 
     <div class="hero">
-        <h1>🎉 Bienvenidos a Talleres Cut Tonalá</h1>
-        <p>Exploren nuestro catálogo de productos y servicios con la mejor calidad.</p>
-        <a href="{{ route('catalogo') }}" class="btn">🔧 Ver Catálogo</a>
+        <h1>🎉 Bienvenidos a Talleres CUTonalá</h1>
+        <p>Exploren nuestro extenso catálogo de Talleres en toda la Red de CUTonalá.</p>
+        <a href="{{ route('catalogo') }}" class="btn"> Ver Catálogo </a>
     </div>
 @endsection

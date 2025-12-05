@@ -93,7 +93,7 @@
     </style>
 
     <div class="auth-container">
-        <h2>🔑 Iniciar Sesión</h2>
+        <h2>Iniciar Sesión</h2>
         
         @if(session('error'))
             <div class="alert alert-error">
